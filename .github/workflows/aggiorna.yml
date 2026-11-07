@@ -3,7 +3,7 @@ name: Aggiorna radar voli
 
 on:
   schedule:
-    - cron: "*/15 * * * *"   # ogni 15 minuti (GitHub può ritardare di qualche minuto)
+    - cron: "7,22,37,52 * * * *"   # ogni 15 minuti, lontano dai minuti tondi
   workflow_dispatch:          # pulsante "Run workflow" per avviarlo a mano
   push:
     branches: [main]          # e a ogni modifica del codice
