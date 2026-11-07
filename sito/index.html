@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radar Voli Napoli · Carmine D'Avino</title>
+  <meta name="description" content="Gli aerei che volano sopra Napoli, aggiornati in automatico ogni 15 minuti con dati ADS-B pubblici. Progetto di Carmine D'Avino.">
+  <meta property="og:title" content="Radar Voli Napoli">
+  <meta property="og:description" content="Gli aerei sopra Napoli, aggiornati in automatico con GitHub Actions e dati ADS-B pubblici.">
+  <meta name="theme-color" content="#0b100d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230b100d'/%3E%3Cpath fill='%2342d392' d='M12 3c.5 0 .9.7.9 1.4V9.5l6.6 3.8v1.7l-6.6-2v3.8l1.8 1.3V19.4L12 18.7l-2.7.7v-1.3l1.8-1.3v-3.8l-6.6 2v-1.7l6.6-3.8V4.4C11.1 3.7 11.5 3 12 3z'/%3E%3C/svg%3E">
+
+  <!-- Leaflet: libreria open source per le mappe (con controllo di integrità SRI) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="titolo">
+      <svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c.5 0 .9.7.9 1.4V9.5l6.6 3.8v1.7l-6.6-2v3.8l1.8 1.3V19.4L12 18.7l-2.7.7v-1.3l1.8-1.3v-3.8l-6.6 2v-1.7l6.6-3.8V4.4C11.1 3.7 11.5 3 12 3z"/></svg>
+      <div>
+        <h1>Radar Voli Napoli</h1>
+        <p class="sottotitolo">Gli aerei entro 74 km dall'aeroporto di Capodichino</p>
+      </div>
+    </div>
+    <div class="stato" id="stato" role="status">
+      <span class="pallino" aria-hidden="true"></span>
+      <span id="stato-testo">Caricamento…</span>
+    </div>
+  </header>
+
+  <div id="avviso-emergenza" class="avviso" hidden></div>
+
+  <main class="layout">
+    <section class="pannello mappa-box" aria-label="Mappa">
+      <div id="mappa"></div>
+      <div class="legenda" aria-label="Legenda colori per quota">
+        <span><i style="background:var(--basso)"></i>sotto 1.500 m</span>
+        <span><i style="background:var(--medio)"></i>1.500–6.000 m</span>
+        <span><i style="background:var(--alto)"></i>sopra 6.000 m</span>
+        <span><i style="background:var(--terra)"></i>a terra</span>
+      </div>
+    </section>
+
+    <aside class="laterale">
+      <div class="statistiche">
+        <div class="stat"><span class="etichetta">In volo adesso</span><strong id="st-numero">–</strong></div>
+        <div class="stat"><span class="etichetta">Aerei diversi in 24 ore</span><strong id="st-24h">–</strong></div>
+        <div class="stat"><span class="etichetta">Il più alto</span><strong id="st-alto">–</strong><span class="dettaglio" id="st-alto-volo"></span></div>
+        <div class="stat"><span class="etichetta">Il più veloce</span><strong id="st-veloce">–</strong><span class="dettaglio" id="st-veloce-volo"></span></div>
+      </div>
+
+      <div class="pannello elenco-box">
+        <h2>Aerei in zona <span class="muto">· dal più vicino</span></h2>
+        <ul id="elenco" class="elenco"></ul>
+      </div>
+    </aside>
+
+    <section class="pannello grafico-box">
+      <h2>Traffico nelle ultime 24 ore</h2>
+      <canvas id="grafico" height="190" aria-label="Grafico del numero di aerei nelle ultime 24 ore" role="img"></canvas>
+    </section>
+
+    <section class="pannello compagnie-box">
+      <h2>Compagnie più viste <span class="muto">· 24 ore</span></h2>
+      <div id="compagnie" class="compagnie"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      Progetto di <a href="https://carminedavino51-art.github.io/">Carmine D'Avino</a> ·
+      <a href="https://github.com/carminedavino51-art/radar-voli-napoli">codice su GitHub</a>
+    </p>
+    <p class="muto">
+      Dati ADS-B: <a href="https://adsb.lol" rel="noopener">adsb.lol</a> (ODbL) o
+      <a href="https://airplanes.live" rel="noopener">airplanes.live</a>, aggiornati da GitHub Actions ogni 15 minuti circa.
+      Uso dimostrativo, non adatto alla navigazione aerea.
+    </p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

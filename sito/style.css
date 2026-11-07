@@ -1,0 +1,105 @@
+/* Radar Voli Napoli - stile (stessi colori del portfolio) */
+:root {
+  --bg: #0b100d;
+  --panel: #131c17;
+  --line: #22302a;
+  --text: #e7ece9;
+  --muted: #9aa8a1;
+  --accent: #42d392;
+  --basso: #f6c453;   /* sotto 1.500 m */
+  --medio: #42d392;   /* 1.500 - 6.000 m */
+  --alto: #5ab0ff;    /* sopra 6.000 m */
+  --terra: #7d8a84;
+  --rosso: #ff5d5d;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.5; }
+a { color: var(--accent); }
+h2 { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--accent); font-family: var(--mono); margin-bottom: 12px; }
+.muto { color: var(--muted); text-transform: none; letter-spacing: 0; font-weight: 400; }
+
+/* Barra in alto */
+.topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+          padding: 16px 24px; border-bottom: 1px solid var(--line); }
+.titolo { display: flex; align-items: center; gap: 12px; }
+.logo { width: 34px; height: 34px; fill: var(--accent); transform: rotate(45deg); }
+h1 { font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
+.sottotitolo { color: var(--muted); font-size: 14px; }
+.stato { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 13px; color: var(--muted);
+         border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; }
+.pallino { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 0 rgba(66,211,146,.6); animation: pulsa 2s infinite; }
+.stato.vecchio .pallino { background: var(--basso); animation: none; }
+.stato.errore .pallino { background: var(--rosso); animation: none; }
+@keyframes pulsa { 70% { box-shadow: 0 0 0 8px rgba(66,211,146,0); } 100% { box-shadow: 0 0 0 0 rgba(66,211,146,0); } }
+
+.avviso { margin: 12px 24px 0; padding: 10px 14px; border-radius: 8px; background: rgba(255,93,93,.12);
+          border: 1px solid var(--rosso); color: #ffd2d2; font-size: 14px; }
+
+/* Griglia principale */
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; padding: 16px 24px; }
+.pannello { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; }
+.mappa-box { padding: 0; overflow: hidden; position: relative; display: flex; }
+#mappa { flex: 1; min-height: 560px; width: 100%; background: #0e1411; }
+.legenda { position: absolute; left: 12px; bottom: 12px; z-index: 500; display: flex; flex-wrap: wrap; gap: 6px 12px;
+           background: rgba(11,16,13,.85); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; font-size: 12px; color: var(--muted); }
+.legenda i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: 0; }
+
+.laterale { display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+.statistiche { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.stat { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; min-width: 0; }
+.stat .etichetta { font-size: 12px; color: var(--muted); }
+.stat strong { font-size: 22px; font-family: var(--mono); font-weight: 600; margin-top: 2px; }
+.stat .dettaglio { font-size: 12px; color: var(--muted); font-family: var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.elenco-box { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.elenco { list-style: none; overflow-y: auto; max-height: 360px; margin: 0 -8px; }
+.elenco button { width: 100%; display: grid; grid-template-columns: 14px 1fr auto; gap: 10px; align-items: center; text-align: left;
+                 background: none; border: 0; color: var(--text); padding: 8px; border-radius: 6px; cursor: pointer; font: inherit; }
+.elenco button:hover, .elenco button:focus-visible { background: rgba(66,211,146,.08); outline: none; }
+.elenco .punto { width: 10px; height: 10px; border-radius: 50%; }
+.elenco .nome { font-family: var(--mono); font-weight: 600; font-size: 14px; }
+.elenco .sotto { display: block; color: var(--muted); font-size: 12px; }
+.elenco .dist { font-family: var(--mono); color: var(--muted); font-size: 13px; }
+.elenco .vuoto { color: var(--muted); padding: 8px; }
+.elenco .emergenza .nome { color: var(--rosso); }
+
+.grafico-box { grid-column: 1; }
+#grafico { width: 100%; display: block; }
+.compagnie-box { grid-column: 2; }
+.compagnie { display: flex; flex-direction: column; gap: 9px; }
+.riga-compagnia { display: grid; grid-template-columns: 110px 1fr 34px; gap: 10px; align-items: center; font-size: 13px; }
+.riga-compagnia .barra { height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; }
+.riga-compagnia .barra span { display: block; height: 100%; background: var(--accent); border-radius: 5px; }
+.riga-compagnia .n { font-family: var(--mono); color: var(--muted); text-align: right; }
+.riga-compagnia .nome { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+footer { padding: 8px 24px 32px; font-size: 13px; display: grid; gap: 4px; }
+
+/* Icone degli aerei sulla mappa */
+.aereo { background: none; border: 0; }
+.aereo svg { width: 26px; height: 26px; filter: drop-shadow(0 1px 2px rgba(0,0,0,.8)); transition: transform .3s; }
+
+/* Popup di Leaflet nei colori del sito */
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--panel); color: var(--text); border: 1px solid var(--line); }
+.leaflet-popup-content { margin: 12px 14px; font-size: 13px; line-height: 1.5; }
+.popup-titolo { font-family: var(--mono); font-size: 16px; font-weight: 700; }
+.popup-sotto { color: var(--muted); margin-bottom: 6px; }
+.popup-dati { display: grid; grid-template-columns: auto auto; gap: 2px 14px; }
+.popup-dati dt { color: var(--muted); }
+.popup-dati dd { font-family: var(--mono); text-align: right; }
+.leaflet-container a.leaflet-popup-close-button { color: var(--muted); }
+.leaflet-control-attribution { background: rgba(11,16,13,.8) !important; color: var(--muted) !important; }
+.leaflet-control-attribution a { color: var(--muted) !important; }
+
+/* Telefono */
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; padding: 12px; }
+  .grafico-box, .compagnie-box { grid-column: 1; }
+  #mappa { min-height: 420px; }
+  .topbar { padding: 14px 12px; }
+  .avviso { margin: 12px 12px 0; }
+  footer { padding: 8px 12px 28px; }
+}
+@media (prefers-reduced-motion: reduce) { .pallino { animation: none; } .aereo svg { transition: none; } }
