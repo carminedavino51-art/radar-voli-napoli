@@ -1,0 +1,49 @@
+# Ogni 15 minuti: scarica i voli, prepara i JSON e pubblica il sito su GitHub Pages.
+name: Aggiorna radar voli
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # ogni 15 minuti (GitHub può ritardare di qualche minuto)
+  workflow_dispatch:          # pulsante "Run workflow" per avviarlo a mano
+  push:
+    branches: [main]          # e a ogni modifica del codice
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Una pubblicazione alla volta: se una è in corso, la successiva aspetta.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  aggiorna:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: github-pages
+      url: ${{ steps.pubblica.outputs.page_url }}
+    steps:
+      - name: Scarica il codice
+        uses: actions/checkout@v4
+
+      - name: Prepara Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Scarica i voli e aggiorna lo storico
+        env:
+          SITO_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
+        run: python scripts/aggiorna_voli.py
+
+      - name: Prepara i file del sito
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: sito
+
+      - name: Pubblica su GitHub Pages
+        id: pubblica
+        uses: actions/deploy-pages@v4
