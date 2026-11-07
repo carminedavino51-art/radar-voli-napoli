@@ -103,3 +103,5 @@ footer { padding: 8px 24px 32px; font-size: 13px; display: grid; gap: 4px; }
   footer { padding: 8px 12px 28px; }
 }
 @media (prefers-reduced-motion: reduce) { .pallino { animation: none; } .aereo svg { transition: none; } }
+/* Tema scuro per la mappa di OpenStreetMap */
+.leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.95) contrast(.9) saturate(.35); }
