@@ -60,10 +60,9 @@ function oraBreve(ms) {
 
 const mappa = L.map("mappa", { zoomControl: true, zoomSnap: 0.25 }).setView(CENTRO, 9);
 
-L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 18,
-  subdomains: "abcd",
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 }).addTo(mappa);
 
 L.circleMarker(CENTRO, { radius: 6, color: "#42d392", weight: 2, fillOpacity: 0.35 })
